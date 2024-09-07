@@ -1,27 +1,30 @@
 import SwiftUI
 
-// Reusable Dashboard Button View
 struct DashboardButton: View {
     
     var title: String
     var subtitle: String
     var imageName: String
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     var body: some View {
         VStack {
-            Image(imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 30, height: 30)
-                .frame(maxWidth: .infinity, alignment: .trailing) // Align image to the trailing edge
+            HStack {
+                Spacer()
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: horizontalSizeClass == .compact ? 30 : 40, height: horizontalSizeClass == .compact ? 30 : 40)
+            }
+            .padding(.bottom, 5)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .font(.system(size: horizontalSizeClass == .compact ? 14 : 16, weight: .medium, design: .rounded))
                 Text(subtitle)
-                    .font(.system(size: 10, weight: .regular, design: .rounded))
+                    .font(.system(size: horizontalSizeClass == .compact ? 10 : 12, weight: .regular, design: .rounded))
                     .foregroundColor(.gray)
             }
-            .frame(maxWidth: .infinity, alignment: .leading) // Align text to the leading edge
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 10)

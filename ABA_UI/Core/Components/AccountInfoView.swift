@@ -3,97 +3,91 @@ import SwiftUI
 struct AccountInfoView: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @Environment(\.verticalSizeClass) var verticalSizeClass
-    
     @State private var selectedAccountType: String = "Default"
+    @State private var isBalanceVisible: Bool = true
     
     var body: some View {
-        VStack(alignment: .leading ,spacing: 40) {
+        VStack(alignment: .leading, spacing: 40) {
             VStack {
                 HStack {
-                    // Account Balance (Blurred)
                     Text("$100.00")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                        .font(.system(size: horizontalSizeClass == .compact ? 16 : 18, weight: .medium, design: .rounded))
                         .foregroundStyle(.white)
+                        .blur(radius: isBalanceVisible ? 0 : 4)
                     
                     Button(action: {
+                        isBalanceVisible.toggle()
                     }) {
-                        // Eye Icon
-                        Image(systemName: "eye.fill")
-                            .font(.system(size: 12))
+                        Image(systemName: isBalanceVisible ? "eye.fill" : "eye.slash.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
                             .foregroundStyle(.white)
-                        // background for eye
-                            .padding(.horizontal, 3)
-                            .padding(.vertical, 5)
-                            .background(Color.black.opacity(0.3))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
+                            .background(Color(red: 0.314, green: 0.525, blue: 0.717))
                             .clipShape(
                                 RoundedRectangle(cornerRadius: 5))
                     }
                 }
                 
-                // Account Type (Default and Saving)
                 HStack(spacing: 10) {
-                    // Default Button
                     Button(action: {
                         selectedAccountType = "Default"
                     }) {
                         Text("Default")
-                            .font(.system(size: 12, weight: .regular, design: .rounded))
+                            .font(.system(size: horizontalSizeClass == .compact ? 12 : 14, weight: .regular, design: .rounded))
                             .padding(.vertical, 5)
                             .padding(.horizontal, 5)
-                            .background(selectedAccountType == "Default" ? Color.blue : Color.clear)
+                            .background(selectedAccountType == "Default" ? Color(red: 0.419, green: 0.748, blue: 0.98) : Color.clear)
                             .cornerRadius(5)
                             .foregroundColor(.white)
                     }
-                    
-                    // Saving Button
                     Button(action: {
                         selectedAccountType = "Saving"
                     }) {
                         Text("Saving")
-                            .font(.system(size: 12, weight: .regular, design: .rounded))
+                            .font(.system(size: horizontalSizeClass == .compact ? 12 : 14, weight: .regular, design: .rounded))
                             .padding(.vertical, 5)
                             .padding(.horizontal, 5)
-                            .background(selectedAccountType == "Saving" ? Color.blue : Color.clear)
+                            .background(selectedAccountType == "Saving" ? Color(red: 0.419, green: 0.748, blue: 0.98) : Color.clear)
                             .cornerRadius(5)
                             .foregroundColor(.white)
                     }
                 }
             }
-            
-            // Receive and Send Money Buttons
+
             HStack(spacing: 20) {
                 Button(action: {
-                    // Receive money action
+
                 }) {
                     HStack {
-                        Image("receive-circle")  // Custom image for receiving money
+                        Image("receive-circle")
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: horizontalSizeClass == .compact ? 20 : 24, height: horizontalSizeClass == .compact ? 20 : 24)
                         Text("Receive money")
-                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                            .font(.system(size: horizontalSizeClass == .compact ? 14 : 16, weight: .medium, design: .rounded))
                     }
                     .foregroundColor(.white)
                 }
                 
                 Button(action: {
-                    // Send money action
+                    
                 }) {
                     HStack {
-                        Image("send-circle")  // Custom image for sending money
+                        Image("send-circle")
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: horizontalSizeClass == .compact ? 20 : 24, height: horizontalSizeClass == .compact ? 20 : 24)
                         Text("Send money")
-                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                            .font(.system(size: horizontalSizeClass == .compact ? 14 : 16, weight: .medium, design: .rounded))
                     }
                     .foregroundColor(.white)
                 }
             }
-
-            
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
+        .padding(.horizontal, 10)
+        .padding(.vertical, 10)
         .background(Color(red: 0.321, green: 0.466, blue: 0.656))
         .cornerRadius(15)
         .overlay(
@@ -103,7 +97,6 @@ struct AccountInfoView: View {
                     lineWidth: 3
                 )
         )
-        
     }
 }
 
